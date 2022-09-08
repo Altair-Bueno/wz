@@ -1,6 +1,8 @@
 macro_rules! include_resources {
     ($($x:tt), *) => {
         $(
+            #[allow(unused)]
+            #[allow(non_upper_case_globals)]
             const $x :&[u8] = include_bytes!(concat!("resources/", stringify!($x), ".txt"));
         )*
     };

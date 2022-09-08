@@ -51,7 +51,6 @@ where
         words,
         bytes,
         newline: newline.into(),
-        ..Default::default()
     };
     // Sheath builder
     let builder: Arc<dyn Builder + Send + Sync> = match encoding {

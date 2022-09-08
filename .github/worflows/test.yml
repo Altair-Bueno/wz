@@ -1,0 +1,33 @@
+name: Check changes
+on:
+  push:
+    branches:
+      - "**"
+      - "*"
+  pull_request:
+    branches:
+      - "master"
+jobs:
+  make_ci:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        toolchain:
+          - stable
+          # - beta
+          # - nightly
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+      - run:
+          rustup update ${{ matrix.toolchain }} && rustup default ${{
+          matrix.toolchain }}
+      - run: make ci
