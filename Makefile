@@ -30,7 +30,7 @@ lint/fmt:
 
 ################################################################################
 # Make targets
-README.md: src/lib.rs
+README.md: src/main.rs
 	@echo Updating $@
 	$(CARGO) sync-readme
 

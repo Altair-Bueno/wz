@@ -14,10 +14,10 @@ categories = ["template-engine", "web-programming"]
 all-features = true
 
 [dependencies]
-wz-utf8 = { path = "crates/wz-utf8", features = ["runtime-dispatch-simd"]}
-wz-core = { path = "crates/wz-core" }
-wz-conf = { path = "crates/wz-conf" }
-wz-fmt = { path = "crates/wz-fmt" }
+wz-utf8 = { path = "crates/wz-utf8", features = ["runtime-dispatch-simd"], version = "0.1.0" }
+wz-core = { path = "crates/wz-core", version = "0.1.0" }
+wz-conf = { path = "crates/wz-conf", version = "0.1.0" }
+wz-fmt = { path = "crates/wz-fmt", version = "0.1.0" }
 
 bumpalo = { version = "3.11.0" }
 rayon = "1.5.3"

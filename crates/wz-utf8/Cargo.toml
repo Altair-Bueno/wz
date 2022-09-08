@@ -11,7 +11,7 @@ runtime-dispatch-simd = ["bytecount/runtime-dispatch-simd"]
 # generic-simd = ["bytecount/generic-simd"]
 
 [dependencies]
-wz-core = { path = "../wz-core" }
+wz-core = { path = "../wz-core", version = "0.1.0" }
 bytecount = "0.6.3"
 rstest = "0.15.0"
 speculoos = "0.9.0"
