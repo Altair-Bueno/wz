@@ -52,6 +52,7 @@ jobs:
 
       - name: Move artifacts to ${{ env.WZ_MISC_FOLDER }}
         run: |
+          mkdir -p ${{ env.WZ_MISC_FOLDER }}
           mv target/${{ matrix.target }}/release/wz* ${{ env.WZ_MISC_FOLDER }}
         continue-on-error: true
 
