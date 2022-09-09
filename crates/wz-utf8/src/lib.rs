@@ -71,8 +71,17 @@ pub struct Lines {
 }
 
 impl Lines {
+    /// Creates a new Lines counter that counts `line_break` bytes
     pub fn with_linebreak(line_break: u8) -> Self {
         Self { n: 0, line_break }
+    }
+    /// Creates a new Lines counter that counts `\n` bytes
+    pub fn line_feed() -> Self {
+        Self::with_linebreak(b'\n')
+    }
+    /// Creates a new Lines counter that counts `\r` bytes
+    pub fn carriage_return() -> Self {
+        Self::with_linebreak(b'\r')
     }
 }
 
