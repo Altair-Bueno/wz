@@ -50,13 +50,13 @@ jobs:
           target: ${{ matrix.target }}
 
       - name: Create misc folder
-        run: mkdir -p misc
+        run: mkdir -p ~/misc
 
       - name: Build binary for target ${{ matrix.target }}
         run: |
           cargo build --release --target ${{ matrix.target }}
         env:
-          MISC: misc
+          MISC: ~/misc
 
       - run:
           zip wz-${{ matrix.target }} target/${{ matrix.target }}/release/${{
