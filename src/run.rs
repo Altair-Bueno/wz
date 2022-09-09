@@ -20,12 +20,15 @@ const BUMP_BUFFER_SIZE: usize = 1_024 * 10;
 const MIN_FILES_RAYON: usize = 1;
 
 pub fn run(config: Config) {
-    if config.json {
-        let json: Json = run_and_collect(config);
-        println!("{json}");
-    } else {
-        let table: Table = run_and_collect(config);
-        println!("{table}")
+    match config.output {
+        wz_conf::Format::Json => {
+            let json: Json = run_and_collect(config);
+            println!("{json}");
+        }
+        _ => {
+            let table: Table = run_and_collect(config);
+            println!("{table}")
+        }
     }
 }
 

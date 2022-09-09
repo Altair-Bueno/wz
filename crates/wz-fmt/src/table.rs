@@ -6,7 +6,7 @@ use tabled::{width::PriorityMax, Style, TableIteratorExt, Tabled, Width};
 use super::{Message, Stats};
 
 pub struct Table {
-    pub table: tabled::Table,
+    table: tabled::Table,
 }
 
 #[derive(Tabled)]
@@ -26,6 +26,7 @@ enum Either {
     #[tabled(inline)]
     Error { error: String },
 }
+
 impl From<Result<Stats, String>> for Either {
     fn from(result: Result<Stats, String>) -> Self {
         match result {

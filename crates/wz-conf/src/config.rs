@@ -47,11 +47,11 @@ pub struct Config {
     #[clap(short, long, default_value_t, value_enum)]
     pub encoding: Encoding,
 
-    /// JSON output
+    /// Output format
     ///
-    /// Print results on JavaScript Object Notation
-    #[clap(long)]
-    pub json: bool,
+    /// Prints the result with the specified format
+    #[clap(long, default_value_t, value_enum)]
+    pub output: Format,
 
     /// List of input files to analyze
     ///
@@ -83,4 +83,20 @@ pub enum Encoding {
     #[default]
     UTF8,
     //UTF16,
+}
+
+/// Supported output formats
+/// https://docs.rs/crate/tabled/
+#[derive(Debug, Clone, Default, ValueEnum)]
+pub enum Format {
+    Ascii,
+    Psql,
+    Markdown,
+    #[default]
+    Rounded,
+    Extended,
+    Dots,
+    Blank,
+
+    Json,
 }

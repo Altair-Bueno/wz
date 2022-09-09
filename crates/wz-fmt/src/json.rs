@@ -20,10 +20,7 @@ impl FromIterator<Message> for Json {
             .iter()
             .flat_map(|(_, y)| y)
             .cloned()
-            .fold(Stats::new(), |mut x, y| {
-                x.combine(&y);
-                x
-            });
+            .fold(Stats::default(), |x, y| x + y);
         Json { total, summary }
     }
 }
@@ -34,15 +31,11 @@ impl FromParallelIterator<Message> for Json {
         I: rayon::prelude::IntoParallelIterator<Item = Message>,
     {
         let summary: HashMap<_, _> = par_iter.into_par_iter().collect();
-        let total =
-            summary
-                .par_iter()
-                .flat_map(|(_, y)| y)
-                .cloned()
-                .reduce(Stats::new, |mut x, y| {
-                    x.combine(&y);
-                    x
-                });
+        let total = summary
+            .par_iter()
+            .flat_map(|(_, y)| y)
+            .copied()
+            .reduce(Stats::default, |x, y| x + y);
         Json { total, summary }
     }
 }

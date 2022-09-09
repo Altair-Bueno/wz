@@ -3,88 +3,75 @@ pub mod table;
 
 pub type Message = (String, Result<Stats, String>);
 
+use std::ops::{Add, AddAssign};
+
 use serde::Serialize;
-use std::option::Option::Some;
-use std::{cmp::max, fmt::Display};
 use tabled::Tabled;
 use wz_core::*;
 
-#[derive(Debug, Eq, PartialEq, Clone, Serialize, Default, Tabled)]
+#[derive(Debug, Eq, PartialEq, Clone, Copy, Serialize, Default, Tabled)]
 pub struct Stats {
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[tabled(display_with = "display_option")]
-    lines: Option<usize>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[tabled(display_with = "display_option")]
-    words: Option<usize>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[tabled(display_with = "display_option")]
-    characters: Option<usize>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[tabled(display_with = "display_option")]
-    bytes: Option<usize>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[tabled(display_with = "display_option")]
-    length: Option<usize>,
-    //columns: Columns,
+    lines: usize,
+    words: usize,
+    characters: usize,
+    bytes: usize,
+    //length: usize,
 }
 
-fn display_option<D: Display>(option: &Option<D>) -> String {
-    match option {
-        Some(x) => format!("{x}"),
-        None => "".to_owned(),
-    }
+macro_rules! add_name {
+    ( $($x1:ident $x2:ident $name:tt ), * ) => {
+        $(let $name = $x1.$name + $x2.$name;)*
+    };
 }
 
-impl Stats {
-    /// Creates a new `Stats` struct with the given stats.
-    pub fn new() -> Stats {
-        Stats {
-            lines: Some(0),
-            words: Some(0),
-            characters: Some(0),
-            bytes: Some(0),
-            length: Some(0),
-        }
-    }
+impl Add for Stats {
+    type Output = Stats;
 
-    pub fn combine(&mut self, s: &Stats) {
-        let combine_using = |a, b, f: fn(usize, usize) -> usize| match (a, b) {
-            (Some(x), Some(y)) => Some(f(x, y)),
-            _ => None,
-        };
-
-        *self = Stats {
-            lines: combine_using(self.lines, s.lines, std::ops::Add::add),
-            words: combine_using(self.words, s.words, std::ops::Add::add),
-            characters: combine_using(self.characters, s.characters, std::ops::Add::add),
-            bytes: combine_using(self.bytes, s.bytes, std::ops::Add::add),
-            length: combine_using(self.length, s.length, max),
+    fn add(self, rhs: Self) -> Self::Output {
+        add_name!(
+            self rhs lines,
+            self rhs words,
+            self rhs characters,
+            self rhs bytes
+        );
+        Self {
+            lines,
+            words,
+            characters,
+            bytes,
         }
     }
 }
 
-impl LinesCollector for Stats {
-    fn collect(&mut self, count: usize) {
-        self.lines = Some(count);
-    }
-}
-impl WordsCollector for Stats {
-    fn collect(&mut self, count: usize) {
-        self.words = Some(count)
+impl AddAssign for Stats {
+    fn add_assign(&mut self, rhs: Self) {
+        *self = self.clone() + rhs
     }
 }
 
-impl CharsCollector for Stats {
-    fn collect(&mut self, count: usize) {
-        self.characters = Some(count)
-    }
+// impl LinesCollector for Stats {
+//     fn collect(&mut self, count: usize) {
+//         self.lines = count;
+//     }
+// }
+macro_rules! impl_collector_stats {
+    ( $($name:ty=>$field:tt), *) => {
+        $(
+            impl $name for Stats {
+                fn collect(&mut self, count: usize) {
+                    self.$field = count;
+                }
+            }
+        )*
+    };
 }
-impl BytesCollector for Stats {
-    fn collect(&mut self, count: usize) {
-        self.bytes = Some(count)
-    }
-}
+
+impl_collector_stats!(
+    LinesCollector=>lines,
+    WordsCollector=>words,
+    CharsCollector=>characters,
+    BytesCollector=>bytes
+);
 
 #[cfg(all(test, feature = "serde"))]
 mod serde_test {
