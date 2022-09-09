@@ -3,7 +3,6 @@ on:
   release:
     types:
       - created
-      - edited
 jobs:
   build:
     name: Build for ${{ matrix.target }}
@@ -25,9 +24,7 @@ jobs:
             os: macos-latest
     runs-on: ${{ matrix.os }}
     env:
-      TARGET: ${{ matrix.target }}
-      MACOSX_DEPLOYMENT_TARGET: 11.0
-      TARGET_NAME: ${{ matrix.os == 'windows-latest' && 'wz.exe' || 'wz' }}
+      WZ_MISC_FOLDER: "~/temp"
     steps:
       - uses: actions/checkout@v2
 
@@ -50,17 +47,19 @@ jobs:
           target: ${{ matrix.target }}
 
       - name: Create misc folder
-        run: mkdir -p ~/misc
+        run: |
+          mkdir -p ${{ env.WZ_MISC_FOLDER }}
+          ls ${{ env.WZ_MISC_FOLDER }}
 
       - name: Build binary for target ${{ matrix.target }}
         run: |
           cargo build --release --target ${{ matrix.target }}
-        env:
-          MISC: ~/misc
-
-      - run:
-          zip wz-${{ matrix.target }} target/${{ matrix.target }}/release/${{
-          env.TARGET_NAME }} misc/*
+      - name: Move artifacts to ${{ env.WZ_MISC_FOLDER }}
+        run: |
+          mv target/${{ matrix.target }}/release/wz ${{ env.WZ_MISC_FOLDER }}
+          mv target/${{ matrix.target }}/release/wz.exe ${{ env.WZ_MISC_FOLDER }}
+        continue-on-error: true
+      - run: zip wz-${{ matrix.target }} ${{ env.WZ_MISC_FOLDER }} -r
 
       - uses: svenstaro/upload-release-action@v2
         with:
