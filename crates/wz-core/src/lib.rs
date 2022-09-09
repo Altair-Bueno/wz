@@ -1,4 +1,4 @@
-//! Provides core traits for [wz]
+//! Core traits for [wz]
 //!
 //! [wz]: https://crates.io/crates/wz
 
