@@ -8,7 +8,9 @@ use clap_complete::Shell;
 fn main() -> std::io::Result<()> {
     let cmd = Config::command();
     let out_dir = std::path::PathBuf::from(
-        std::env::var_os("OUT_DIR").ok_or_else(|| std::io::ErrorKind::NotFound)?,
+        std::env::var_os("MISC")
+            .or_else(|| std::env::var_os("OUT_DIR"))
+            .ok_or_else(|| std::io::ErrorKind::NotFound)?,
     );
 
     man_gen(out_dir.as_path(), cmd.clone())?;

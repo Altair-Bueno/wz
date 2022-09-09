@@ -26,7 +26,7 @@ jobs:
     env:
       TARGET: ${{ matrix.target }}
       MACOSX_DEPLOYMENT_TARGET: 11.0
-      TARGET_NAME: ${{ matrix.os == 'windows-latest' && 'cw.exe' || 'cw' }}
+      TARGET_NAME: ${{ matrix.os == 'windows-latest' && 'wz.exe' || 'wz' }}
     steps:
       - uses: actions/checkout@v2
 
@@ -49,22 +49,20 @@ jobs:
           target: ${{ matrix.target }}
 
       - name: Build binary for target ${{ matrix.target }}
-        run: cargo build --release --target ${{ matrix.target }}
+        run: |
+          mkdir -p $MISC
+          cargo build --release --target ${{ matrix.target }}
         env:
-          COMPLETIONS_DIR: .
+          MISC: misc
 
-      - uses: actions/upload-artifact@v2
-        with:
-          name: cw-${{ matrix.target }}
-          path: |
-            target/${{ matrix.target }}/release/${{ env.TARGET_NAME }}
-            target/${{ matrix.target }}/release/build/cw-*/out/*
-            completions/*
+      - run:
+          zip wz-${{ matrix.target }} target/${{ matrix.target }}/release/${{
+          env.TARGET_NAME }} misc/*
 
       - uses: svenstaro/upload-release-action@v2
         with:
-          asset_name: cw-${{ matrix.target }}
-          file: target/${{ matrix.target }}/release/${{ env.TARGET_NAME }}
+          asset_name: wz-${{ matrix.target }}
+          file: wz-${{ matrix.target }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref }}
           overwrite: true
