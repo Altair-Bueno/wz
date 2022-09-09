@@ -66,6 +66,7 @@ jobs:
           wget https://github.com/sharkdp/hyperfine/releases/download/v1.15.0/hyperfine_1.15.0_amd64.deb
           sudo dpkg -i hyperfine_1.15.0_amd64.deb
           cargo install --path .
+          chmod +x bench/bench.sh
       - run:
           bench/bench.sh "$GITHUB_WORKSPACE/crates/wz-utf8/tests/resources"
           "$GITHUB_WORKSPACE/bench"
