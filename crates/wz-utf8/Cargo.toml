@@ -3,9 +3,8 @@ name = "wz-utf8"
 version = "0.1.0"
 edition = "2021"
 license = "MIT"
-description = "TBD"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+description = "UTF-8 counters for wz"
+categories = ["no-std"]
 
 [features]
 runtime-dispatch-simd = ["bytecount/runtime-dispatch-simd"]

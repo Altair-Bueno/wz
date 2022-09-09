@@ -1,6 +1,17 @@
+//! UTF-8 counters for [wz]
+//!
+//! [wz]: https://crates.io/crates/wz
 #![no_std]
-
 use wz_core::*;
+
+/// Byte counter for UTF-8 encoded byte slices
+///
+/// ```
+/// use wz_core::Counter;
+/// use wz_utf8::Bytes;
+///
+/// let counter = Bytes::default();
+/// ```
 #[derive(Clone, Debug, Default)]
 pub struct Bytes {
     n: usize,
@@ -19,6 +30,14 @@ where
     }
 }
 
+/// Character counter for UTF-8 encoded byte slices
+///
+/// ```
+/// use wz_core::Counter;
+/// use wz_utf8::Chars;
+///
+/// let counter = Chars::default();
+/// ```
 #[derive(Clone, Debug, Default)]
 pub struct Chars {
     n: usize,
@@ -37,6 +56,14 @@ where
     }
 }
 
+/// Line counter for UTF-8 encoded byte slices
+///
+/// ```
+/// use wz_core::Counter;
+/// use wz_utf8::Lines;
+///
+/// let counter = Lines::with_linebreak(b'\n');
+/// ```
 #[derive(Clone, Debug)]
 pub struct Lines {
     n: usize,
@@ -61,7 +88,16 @@ where
         collector.collect(self.n);
     }
 }
-
+/// Word counter for UTF-8 encoded byte slices
+///
+/// A word boundary is defined in `isspace(3)`
+///
+/// ```
+/// use wz_core::Counter;
+/// use wz_utf8::Words;
+///
+/// let counter = Words::default();
+/// ```
 #[derive(Clone, Debug, Default)]
 pub struct Words {
     n: usize,
