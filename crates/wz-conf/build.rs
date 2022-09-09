@@ -1,9 +1,9 @@
+include!("src/config.rs");
+
 use std::path::Path;
 
 use clap::{App, CommandFactory};
 use clap_complete::Shell;
-
-include!("src/lib.rs");
 
 fn main() -> std::io::Result<()> {
     let cmd = Config::command();

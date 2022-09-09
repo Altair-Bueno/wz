@@ -3,7 +3,7 @@ name = "wz-conf"
 version = "0.1.0"
 edition = "2021"
 license = "MIT"
-description = "TBD"
+description = "Configuration options for wz"
 
 [dependencies.clap]
 version = "3.2.20"
