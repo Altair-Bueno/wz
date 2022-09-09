@@ -38,26 +38,26 @@ pub struct Config {
     ///
     /// The kind of line break wz will search for. It can be LF ('\n') or CR
     /// ('\r'). For Windows' CRLF files, either should work fine
-    #[clap(short, long, default_value_t, value_enum)]
+    #[clap(short, long, default_value_t, value_enum, verbatim_doc_comment)]
     pub newline: LineBreak,
 
     /// File encoding
     ///
     /// The file encoding used on these files
-    #[clap(short, long, default_value_t, value_enum)]
+    #[clap(short, long, default_value_t, value_enum, verbatim_doc_comment)]
     pub encoding: Encoding,
 
     /// Output format
     ///
     /// Prints the result with the specified format
-    #[clap(long, default_value_t, value_enum)]
+    #[clap(long, default_value_t, value_enum, verbatim_doc_comment)]
     pub output: Format,
 
     /// List of input files to analyze
     ///
     /// If no file is provided, wz will default to stdin input. Conflicts with
     /// `from-stdin`
-    #[clap()]
+    #[clap(verbatim_doc_comment)]
     pub files: Vec<String>,
 }
 
