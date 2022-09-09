@@ -1,0 +1,70 @@
+name: Build release artifacts on release creation
+on:
+  release:
+    types:
+      - created
+jobs:
+  build:
+    name: Build for ${{ matrix.target }}
+    strategy:
+      matrix:
+        include:
+          # Linux
+          - target: "x86_64-unknown-linux-gnu"
+            os: ubuntu-latest
+          # Windows
+          - target: "aarch64-pc-windows-msvc"
+            os: windows-latest
+          - target: "x86_64-pc-windows-msvc"
+            os: windows-latest
+          # macOS
+          - target: "aarch64-apple-darwin"
+            os: macos-latest
+          - target: "x86_64-apple-darwin"
+            os: macos-latest
+    runs-on: ${{ matrix.os }}
+    env:
+      TARGET: ${{ matrix.target }}
+      MACOSX_DEPLOYMENT_TARGET: 11.0
+      TARGET_NAME: ${{ matrix.os == 'windows-latest' && 'cw.exe' || 'cw' }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key:
+            ${{ matrix.target }}-${{ matrix.os }}-cargo-${{
+            hashFiles('**/Cargo.lock') }}
+
+      - name: Set up target ${{ matrix.target }}
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          target: ${{ matrix.target }}
+
+      - name: Build binary for target ${{ matrix.target }}
+        run: cargo build --release --target ${{ matrix.target }}
+        env:
+          COMPLETIONS_DIR: .
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: cw-${{ matrix.target }}
+          path: |
+            target/${{ matrix.target }}/release/${{ env.TARGET_NAME }}
+            target/${{ matrix.target }}/release/build/cw-*/out/*
+            completions/*
+
+      - uses: svenstaro/upload-release-action@v2
+        with:
+          asset_name: cw-${{ matrix.target }}
+          file: target/${{ matrix.target }}/release/${{ env.TARGET_NAME }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.ref }}
+          overwrite: true
