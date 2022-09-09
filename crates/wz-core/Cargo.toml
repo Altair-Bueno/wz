@@ -3,8 +3,5 @@ name = "wz-core"
 version = "0.1.0"
 edition = "2021"
 license = "MIT"
-description = "TBD"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]
+description = "Core traits for wz"
+categories = ["no-std"]
