@@ -87,7 +87,7 @@ pub enum Encoding {
 
 /// Supported output formats
 /// https://docs.rs/crate/tabled/
-#[derive(Debug, Clone, Default, ValueEnum)]
+#[derive(Debug, Clone, Copy, Default, ValueEnum)]
 pub enum Format {
     Ascii,
     Psql,
@@ -95,8 +95,6 @@ pub enum Format {
     #[default]
     Rounded,
     Extended,
-    Dots,
-    Blank,
 
     Json,
 }

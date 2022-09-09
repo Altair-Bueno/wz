@@ -1,5 +1,5 @@
 use std::{
-    io::{stdin, Read},
+    io::{stdin, stdout, Read},
     iter::{once, FromIterator},
     sync::Arc,
 };
@@ -11,7 +11,11 @@ use rayon::{
 };
 use wz_conf::{Config, Encoding};
 use wz_core::Counter;
-use wz_fmt::{json::Json, table::Table, Message, Stats};
+use wz_fmt::{
+    json::Json,
+    table::{Table, TableStyle},
+    Message, Stats,
+};
 
 use crate::builder::{Builder, BuilderUtf8, Options};
 
@@ -23,11 +27,20 @@ pub fn run(config: Config) {
     match config.output {
         wz_conf::Format::Json => {
             let json: Json = run_and_collect(config);
-            println!("{json}");
+            json.to_writer(stdout());
         }
-        _ => {
+        style => {
+            let style = match style {
+                wz_conf::Format::Ascii => TableStyle::Ascii,
+                wz_conf::Format::Psql => TableStyle::Psql,
+                wz_conf::Format::Markdown => TableStyle::Markdown,
+                wz_conf::Format::Rounded => TableStyle::Rounded,
+                wz_conf::Format::Extended => TableStyle::Extended,
+                wz_conf::Format::Json => unreachable!(),
+            };
+            let options = wz_fmt::table::TableOptions { style };
             let table: Table = run_and_collect(config);
-            println!("{table}")
+            table.to_writer(options, stdout()).unwrap();
         }
     }
 }

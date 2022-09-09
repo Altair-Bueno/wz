@@ -3,7 +3,7 @@ use rayon::{
     prelude::{IntoParallelRefIterator, ParallelIterator},
 };
 use serde::Serialize;
-use std::{collections::HashMap, fmt::Display, iter::FromIterator};
+use std::{collections::HashMap, io::Write, iter::FromIterator};
 
 use super::{Message, Stats};
 
@@ -11,6 +11,12 @@ use super::{Message, Stats};
 pub struct Json {
     total: Stats,
     summary: HashMap<String, Result<Stats, String>>,
+}
+
+impl Json {
+    pub fn to_writer(self, writter: impl Write) -> serde_json::Result<()> {
+        serde_json::to_writer(writter, &self)
+    }
 }
 
 impl FromIterator<Message> for Json {
@@ -37,11 +43,5 @@ impl FromParallelIterator<Message> for Json {
             .copied()
             .reduce(Stats::default, |x, y| x + y);
         Json { total, summary }
-    }
-}
-
-impl Display for Json {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", serde_json::to_string(self).unwrap())
     }
 }
