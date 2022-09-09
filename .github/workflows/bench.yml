@@ -67,9 +67,7 @@ jobs:
           sudo dpkg -i hyperfine_1.15.0_amd64.deb
           cargo install --path .
           chmod +x bench/bench.sh
-      - run:
-          bench/bench.sh "$GITHUB_WORKSPACE/crates/wz-utf8/tests/resources"
-          "$GITHUB_WORKSPACE/bench"
+      - run: bench/bench.sh "crates/wz-utf8/tests/resources" "bench"
       - uses: actions/upload-artifact@v2
         with:
           name: cli

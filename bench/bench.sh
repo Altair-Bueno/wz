@@ -4,7 +4,7 @@
 # USAGE
 # ./bench.sh "path/to/files" "path/export/folder"
 
-ARGS_LIST_HYPERFINE=$(ls $1 | xargs)
+ARGS_LIST_HYPERFINE=$(echo $1/* | xargs)
 
 echo "Byte count"
 hyperfine -m 100 -w 2 -n "wz" "wz -b $ARGS_LIST_HYPERFINE" -n "wc" "wc -c $ARGS_LIST_HYPERFINE" --export-markdown "$2/bytes.md"
