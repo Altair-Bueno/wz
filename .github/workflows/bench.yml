@@ -37,3 +37,39 @@ jobs:
           name: ${{ steps.directory.outputs.directory_name }}
           path: |
             target/criterion
+            /proc/cpuinfo
+
+  cli_bench:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        toolchain:
+          - stable
+          # - beta
+          # - nightly
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+      - run:
+          rustup update ${{ matrix.toolchain }} && rustup default ${{
+          matrix.toolchain }}
+      - run: |
+          wget https://github.com/sharkdp/hyperfine/releases/download/v1.15.0/hyperfine_1.15.0_amd64.deb
+          sudo dpkg -i hyperfine_1.15.0_amd64.deb
+      - run:
+          bench/bench.sh "$GITHUB_WORKSPACE/crates/wz-utf8/tests/resources"
+          "$GITHUB_WORKSPACE/bench"
+      - uses: actions/upload-artifact@v2
+        with:
+          name: cli
+          path: |
+            bench
+            /proc/cpuinfo
