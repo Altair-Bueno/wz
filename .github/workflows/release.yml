@@ -3,6 +3,7 @@ on:
   release:
     types:
       - created
+      - edited
 jobs:
   build:
     name: Build for ${{ matrix.target }}
@@ -48,9 +49,11 @@ jobs:
           toolchain: stable
           target: ${{ matrix.target }}
 
+      - name: Create misc folder
+        run: mkdir -p misc
+
       - name: Build binary for target ${{ matrix.target }}
         run: |
-          mkdir -p $MISC
           cargo build --release --target ${{ matrix.target }}
         env:
           MISC: misc
