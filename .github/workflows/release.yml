@@ -60,8 +60,7 @@ jobs:
 
       - uses: svenstaro/upload-release-action@v2
         with:
-          asset_name: wz-${{ matrix.target }}
-          file: wz-${{ matrix.target }}
+          file: wz-${{ matrix.target }}.zip
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref }}
           overwrite: true
