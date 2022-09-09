@@ -64,7 +64,7 @@ impl Builder for BuilderUtf8 {
         counter
     }
 }
-
+/*
 #[derive(Debug, Clone, Default)]
 pub struct BuilderUtf16(Options);
 
@@ -100,3 +100,4 @@ impl Builder for BuilderUtf16 {
         counter
     }
 }
+ */
