@@ -8,7 +8,8 @@ use clap_complete::Shell;
 fn main() -> std::io::Result<()> {
     let cmd = Config::command();
     let out_dir = std::path::PathBuf::from(
-        std::env::var("WZ_MISC_FOLDER")
+        //std::env::var("WZ_MISC_FOLDER")
+        std::env::var("OUT_DIR")
             .or_else(|_| std::env::var("OUT_DIR"))
             .map_err(|_| std::io::ErrorKind::NotFound)?,
     );

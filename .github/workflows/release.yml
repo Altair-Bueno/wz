@@ -46,19 +46,15 @@ jobs:
           toolchain: stable
           target: ${{ matrix.target }}
 
-      - name: Create misc folder
-        run: |
-          mkdir -p ${{ env.WZ_MISC_FOLDER }}
-          ls ${{ env.WZ_MISC_FOLDER }}
-
       - name: Build binary for target ${{ matrix.target }}
         run: |
           cargo build --release --target ${{ matrix.target }}
+
       - name: Move artifacts to ${{ env.WZ_MISC_FOLDER }}
         run: |
-          mv target/${{ matrix.target }}/release/wz ${{ env.WZ_MISC_FOLDER }}
-          mv target/${{ matrix.target }}/release/wz.exe ${{ env.WZ_MISC_FOLDER }}
+          mv target/${{ matrix.target }}/release/wz* ${{ env.WZ_MISC_FOLDER }}
         continue-on-error: true
+
       - run: zip wz-${{ matrix.target }} ${{ env.WZ_MISC_FOLDER }} -r
 
       - uses: svenstaro/upload-release-action@v2
