@@ -7,22 +7,21 @@ pub trait Counter<T> {
 // Unit type
 impl<T> Counter<T> for () {
     fn count(&mut self, _: &[u8]) {}
-
     fn output(&self, _: &mut T) {}
 }
 
-pub trait BytesCollector {
-    fn collect(&mut self, count: usize);
-}
-pub trait CharsCollector {
-    fn collect(&mut self, count: usize);
-}
-pub trait LinesCollector {
-    fn collect(&mut self, count: usize);
-}
+// pub trait BytesCollector {
+//     fn collect(&mut self, count: usize);
+// }
 
-pub trait WordsCollector {
-    fn collect(&mut self, count: usize);
+macro_rules! gen_collector_trait {
+    ( $($name:tt), * ) => {
+        $(
+            pub trait $name {
+                fn collect(&mut self, count: usize);
+            }
+        )*
+    };
 }
 
 // impl BytesCollector for usize {
@@ -32,9 +31,9 @@ pub trait WordsCollector {
 // }
 
 macro_rules! impl_collector_usize {
-    ( $($x:ty), *) => {
+    ( $($name:ty), *) => {
         $(
-            impl $x for usize {
+            impl $name for usize {
                 fn collect(&mut self, count: usize) {
                     *self = count;
                 }
@@ -42,6 +41,13 @@ macro_rules! impl_collector_usize {
         )*
     };
 }
+
+gen_collector_trait!(
+    BytesCollector,
+    CharsCollector,
+    LinesCollector,
+    WordsCollector
+);
 
 impl_collector_usize!(
     BytesCollector,
