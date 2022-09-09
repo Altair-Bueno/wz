@@ -1183,7 +1183,7 @@ checksum = "c811ca4a8c853ef420abd8592ba53ddbbac90410fab6903b3e79972a631f7680"
 
 [[package]]
 name = "wz"
-version = "0.1.6"
+version = "0.1.7"
 dependencies = [
  "bumpalo",
  "rayon",
@@ -1195,7 +1195,7 @@ dependencies = [
 
 [[package]]
 name = "wz-conf"
-version = "0.1.6"
+version = "0.1.7"
 dependencies = [
  "clap 3.2.20",
  "clap_complete",
