@@ -61,9 +61,11 @@ jobs:
       - run:
           rustup update ${{ matrix.toolchain }} && rustup default ${{
           matrix.toolchain }}
-      - run: |
+      - name: Install software
+        run: |
           wget https://github.com/sharkdp/hyperfine/releases/download/v1.15.0/hyperfine_1.15.0_amd64.deb
           sudo dpkg -i hyperfine_1.15.0_amd64.deb
+          cargo install --path .
       - run:
           bench/bench.sh "$GITHUB_WORKSPACE/crates/wz-utf8/tests/resources"
           "$GITHUB_WORKSPACE/bench"
