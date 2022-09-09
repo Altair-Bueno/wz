@@ -6,9 +6,9 @@ use clap::{ArgGroup, Parser, ValueEnum};
 pub struct Config {
     /// Read file paths from stdin
     ///
-    /// When this flag is enabled, cw will treat each line in stdin as a file path
+    /// When this flag is enabled, wz will treat each line in stdin as a file path
     /// Example:
-    ///     $ cat list_files.txt | cw --from-stdin
+    ///     $ cat list_files.txt | wz --from-stdin
     #[clap(long, verbatim_doc_comment)]
     pub from_stdin: bool,
 
@@ -20,28 +20,29 @@ pub struct Config {
     #[clap(short, long = "chars", verbatim_doc_comment)]
     pub characters: bool,
 
-    /// Enables word count as defined on ISSPACE(3)
+    /// Enables word count
+    ///
+    /// A word boundary is defined in isspace(3)
     #[clap(short, long, verbatim_doc_comment)]
     pub words: bool,
 
     /// Enables byte count
     #[clap(short, long, verbatim_doc_comment)]
     pub bytes: bool,
-    //
+
     //     /// Shows the longest line size
     //     #[clap(short = 'L', long, verbatim_doc_comment)]
     //     pub line_length: bool,
-    /// Linebreak to use
+    /// Line break to use
     ///
-    /// The kind of line break cw will search for. It can be LF '\n' or CR '\r'.
-    /// For Windows' CRLF files either should work fine
+    /// The kind of line break wz will search for. It can be LF ('\n') or CR
+    /// ('\r'). For Windows' CRLF files, either should work fine
     #[clap(short, long, default_value_t, value_enum)]
     pub newline: LineBreak,
 
-    /// Character encoding expected
+    /// File encoding
     ///
-    /// The file encoding used on these files. Posible values are UTF8 and UTF16
-    /// Both UTF16 variants, Little Endian and Big Endian, are supported
+    /// The file encoding used on these files
     #[clap(short, long, default_value_t, value_enum)]
     pub encoding: Encoding,
 
@@ -53,8 +54,8 @@ pub struct Config {
 
     /// List of input files to analyze
     ///
-    /// If no file is provided, cw will default to stdin input. Conflicts with
-    /// `from-stdin` option
+    /// If no file is provided, wz will default to stdin input. Conflicts with
+    /// `from-stdin`
     #[clap()]
     pub files: Vec<String>,
 }
@@ -76,7 +77,7 @@ impl From<LineBreak> for u8 {
 pub enum Encoding {
     #[default]
     UTF8,
-    UTF16,
+    //UTF16,
 }
 
 pub fn load() -> Config {

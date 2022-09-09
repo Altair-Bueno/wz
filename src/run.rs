@@ -13,7 +13,7 @@ use wz_conf::{Config, Encoding};
 use wz_core::Counter;
 use wz_fmt::{json::Json, table::Table, Message, Stats};
 
-use crate::builder::{Builder, BuilderUtf16, BuilderUtf8, Options};
+use crate::builder::{Builder, BuilderUtf8, Options};
 
 // 10KB
 const BUMP_BUFFER_SIZE: usize = 1_024 * 10;
@@ -55,7 +55,6 @@ where
     // Sheath builder
     let builder: Arc<dyn Builder + Send + Sync> = match encoding {
         Encoding::UTF8 => Arc::new(BuilderUtf8::from(options)),
-        Encoding::UTF16 => Arc::new(BuilderUtf16::from(options)),
     };
 
     // Runtime to use
