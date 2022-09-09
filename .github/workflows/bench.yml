@@ -27,8 +27,13 @@ jobs:
           matrix.toolchain }}
       - run: cargo bench
         working-directory: ${{ matrix.path }}
+      - name: Get directory name
+        id: directory
+        run: echo ::set-output name=directory_name::${TEMP##*/}
+        env:
+          TEMP: ${{ matrix.path }}
       - uses: actions/upload-artifact@v2
         with:
-          name: bench-${{ matrix.path }}
+          name: ${{ steps.directory.outputs.directory_name }}
           path: |
             target/criterion
