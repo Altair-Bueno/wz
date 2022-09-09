@@ -21,6 +21,9 @@ jobs:
           - windows-latest
           - ubuntu-latest
     steps:
+      - name: Disable autocrlf
+        run: git config --global core.autocrlf false
+
       - uses: actions/checkout@v3
       - uses: actions/cache@v3
         with:
