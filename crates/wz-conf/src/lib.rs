@@ -1,7 +1,7 @@
 use clap::{ArgGroup, Parser, ValueEnum};
 
 #[derive(Parser, Debug, Clone)]
-#[clap(author, version, about, long_about = None)]
+#[clap(name = "wz",author, version, about = "Wortzahl! Count words, fast", long_about = None)]
 #[clap(group(ArgGroup::new("input").required(false).args(& ["from-stdin", "files"])))]
 pub struct Config {
     /// Read file paths from stdin

@@ -5,9 +5,6 @@ edition = "2021"
 license = "MIT"
 description = "TBD"
 
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies.clap]
 version = "3.2.20"
 default-features = false
@@ -18,3 +15,11 @@ features = [
   "derive",
   "wrap_help"
 ]
+
+[build-dependencies]
+clap_mangen = "0.1"
+clap_complete = "3.2.4"
+
+[build-dependencies.clap]
+version = "3.2.20"
+features = [ "derive" ]
