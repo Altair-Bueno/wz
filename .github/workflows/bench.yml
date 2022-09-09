@@ -27,6 +27,9 @@ jobs:
           matrix.toolchain }}
       - run: cargo bench
         working-directory: ${{ matrix.path }}
+      - name: Retrive machine information
+        run: |
+          cat /proc/cpuinfo > target/criterion/info.txt
       - name: Get directory name
         id: directory
         run: echo ::set-output name=directory_name::${TEMP##*/}
@@ -37,7 +40,6 @@ jobs:
           name: ${{ steps.directory.outputs.directory_name }}
           path: |
             target/criterion
-            /proc/cpuinfo
 
   cli_bench:
     runs-on: ubuntu-latest
@@ -68,9 +70,11 @@ jobs:
           cargo install --path .
           chmod +x bench/bench.sh
       - run: bench/bench.sh "crates/wz-utf8/tests/resources" "bench"
+      - name: Retrive machine information
+        run: |
+          cat /proc/cpuinfo > target/criterion/info.txt
       - uses: actions/upload-artifact@v2
         with:
           name: cli
           path: |
             bench
-            /proc/cpuinfo
