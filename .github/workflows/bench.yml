@@ -72,7 +72,7 @@ jobs:
       - run: bench/bench.sh "crates/wz-utf8/tests/resources" "bench"
       - name: Retrive machine information
         run: |
-          cat /proc/cpuinfo > target/criterion/info.txt
+          cat /proc/cpuinfo > bench/info.txt
       - uses: actions/upload-artifact@v2
         with:
           name: cli
