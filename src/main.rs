@@ -27,7 +27,7 @@
 //!
 //! Run `wz --help` to see the full list of options
 
-use std::{io::stdout, error::Error};
+use std::{error::Error, io::stdout};
 
 use wz_fmt::{
     json::Json,
