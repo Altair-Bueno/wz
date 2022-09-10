@@ -7,14 +7,19 @@
 //!
 //! # Features
 //!
+//! ## It's fast!
+//!
+//! `wz` is heavily optimized for performance. Even if you are counting
+//! multiple files, thanks to [rayon]. [Just look at the benchmarks](BENCH.md)
+//!
 //! ## Human readable and machine readable formats
 //!
 //! Output the results on a nice table, or pipe them to another program
 //! that reads JSON. Stop messing with `sed` and `awk`!
 //!
 //! ```sh
-//! $ wz *(.) --output json  
-//! {"total":{"lines":1439,"words":3494,"bytes":37822},"summary":{"Cargo.lock":{"Ok":{"lines":1204,"words":2298,"bytes":30365}},"Cargo.toml":{"Ok":{"lines":35,"words":123,"bytes":889}},"LICENSE":{"Ok":{"lines":21,"words":169,"bytes":1069}},"Makefile":{"Ok":{"lines":41,"words":68,"bytes":880}},"README.md":{"Ok":{"lines":30,"words":76,"bytes":528}},"BENCH.md":{"Ok":{"lines":101,"words":718,"bytes":3840}},"CONTRIBUTING.md":{"Ok":{"lines":7,"words":42,"bytes":251}}}}%
+//! $ wz *(.) --output json | jq .total.lines
+//! 1470
 //! ```
 //!
 //! ## Multiple encoding support
@@ -30,10 +35,6 @@
 //! ```sh
 //! wz macintosh.txt -n cr
 //! ```
-//!
-//! ## Multithreading
-//!
-//! `wz` uses [rayon] under the hood, meaning that files are counted in parallel
 //!
 //! # Installation
 //!
