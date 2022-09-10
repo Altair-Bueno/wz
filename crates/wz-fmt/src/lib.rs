@@ -1,10 +1,21 @@
+//! Types for generating wz's output
+//!
+//! [wz]: https://crates.io/crates/wz
+
 pub mod json;
 pub mod table;
 
 pub type Message = (String, Result<Stats, String>);
 
+pub trait Output {
+    type Options;
+    type Error;
+    fn to_writer<W: Write>(self, options: Self::Options, writter: W) -> Result<(), Self::Error>;
+}
+
 use std::{
     fmt::Display,
+    io::Write,
     ops::{Add, AddAssign},
 };
 
@@ -12,6 +23,9 @@ use serde::Serialize;
 use tabled::Tabled;
 use wz_core::*;
 
+/// Collector for [wz-utf8] counters
+///
+/// [wz-utf8]: https://crates.io/crates/wz-utf8
 #[derive(Debug, Eq, PartialEq, Clone, Copy, Serialize, Default, Tabled)]
 pub struct Stats {
     #[tabled(display_with = "display_option")]
@@ -30,7 +44,8 @@ pub struct Stats {
 }
 
 impl Stats {
-    pub fn new() -> Self {
+    // Creates a new identity stats
+    pub fn identity() -> Self {
         Self {
             lines: Some(0),
             words: Some(0),
@@ -39,7 +54,9 @@ impl Stats {
         }
     }
 }
-
+/// Defines display representation on [`Table`]
+///
+/// [`Table`]: crate::table::Table
 fn display_option<T: Display>(opt: &Option<T>) -> String {
     match opt {
         Some(x) => x.to_string(),
@@ -47,6 +64,8 @@ fn display_option<T: Display>(opt: &Option<T>) -> String {
     }
 }
 
+/// Creates a variable that combines two values with the same name on two
+/// structs
 macro_rules! add_name {
     ( $($x1:ident $x2:ident $name:tt ), * ) => {
         $(let $name = $x1.$name.zip($x2.$name).map(|(x,y)|x+y) ;)*
@@ -74,10 +93,11 @@ impl Add for Stats {
 
 impl AddAssign for Stats {
     fn add_assign(&mut self, rhs: Self) {
-        *self = self.clone() + rhs
+        *self = *self + rhs
     }
 }
 
+/// Implements a collector-like trait on stats
 macro_rules! impl_collector_stats {
     ( $($name:ty=>$field:tt), *) => {
         $(

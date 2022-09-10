@@ -3,6 +3,8 @@ use std::{io::Write, iter::FromIterator};
 use rayon::prelude::{FromParallelIterator, IntoParallelRefIterator, ParallelIterator};
 use tabled::{width::PriorityMax, Style, TableIteratorExt, Tabled, Width};
 
+use crate::Output;
+
 use super::{Message, Stats};
 
 #[derive(Debug)]
@@ -19,11 +21,13 @@ pub enum TableStyle {
     Extended,
 }
 
+/// Table representation of wz's output
 #[derive(Debug)]
 pub struct Table {
     table: tabled::Table,
 }
 
+/// Defines a table row
 #[derive(Tabled, Debug)]
 struct Inner {
     name: String,
@@ -51,8 +55,10 @@ impl From<Result<Stats, String>> for Either {
     }
 }
 
-impl Table {
-    pub fn to_writer(self, options: TableOptions, mut writter: impl Write) -> std::io::Result<()> {
+impl Output for Table {
+    type Options = TableOptions;
+    type Error = std::io::Error;
+    fn to_writer<W: Write>(self, options: Self::Options, mut writter: W) -> std::io::Result<()> {
         let width = None
             .or_else(|| Some(terminal_size::terminal_size()?.0 .0 as _))
             .unwrap_or(80);
@@ -94,7 +100,7 @@ impl FromIterator<Message> for Table {
                     None
                 }
             })
-            .fold(Stats::new(), |x, y| x + y);
+            .fold(Stats::identity(), |x, y| x + y);
         rows.push(Inner {
             name: "Total".to_owned(),
             result: Either::Stats { stats: total },
@@ -128,7 +134,7 @@ impl FromParallelIterator<Message> for Table {
                     None
                 }
             })
-            .reduce(Stats::new, |x, y| x + y);
+            .reduce(Stats::identity, |x, y| x + y);
         rows.push(Inner {
             name: "Total".to_owned(),
             result: Either::Stats { stats: total },

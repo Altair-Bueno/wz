@@ -1,5 +1,5 @@
 use std::{
-    io::{stdin, stdout, Read},
+    io::{stdin, Read},
     iter::{once, FromIterator},
     sync::Arc,
 };
@@ -11,41 +11,16 @@ use rayon::{
 };
 use wz_conf::{Config, Encoding};
 use wz_core::Counter;
-use wz_fmt::{
-    json::Json,
-    table::{Table, TableStyle},
-    Message, Stats,
-};
+use wz_fmt::{Message, Stats};
 
-use crate::builder::{Builder, BuilderUtf8, Options};
+use crate::builder::{Builder, BuilderUtf8, Filter};
 
-// 10KB
+/// Bumpalo arena byte size. 10KB
 const BUMP_BUFFER_SIZE: usize = 1_024 * 10;
+/// Minimum files required to use the Rayon runtime
 const MIN_FILES_RAYON: usize = 1;
 
-pub fn run(config: Config) {
-    match config.output {
-        wz_conf::Format::Json => {
-            let json: Json = run_and_collect(config);
-            json.to_writer(stdout());
-        }
-        style => {
-            let style = match style {
-                wz_conf::Format::Ascii => TableStyle::Ascii,
-                wz_conf::Format::Psql => TableStyle::Psql,
-                wz_conf::Format::Markdown => TableStyle::Markdown,
-                wz_conf::Format::Rounded => TableStyle::Rounded,
-                wz_conf::Format::Extended => TableStyle::Extended,
-                wz_conf::Format::Json => unreachable!(),
-            };
-            let options = wz_fmt::table::TableOptions { style };
-            let table: Table = run_and_collect(config);
-            table.to_writer(options, stdout()).unwrap();
-        }
-    }
-}
-
-pub fn run_and_collect<T>(
+pub fn run<T>(
     Config {
         from_stdin,
         lines,
@@ -61,7 +36,8 @@ pub fn run_and_collect<T>(
 where
     T: FromParallelIterator<Message> + FromIterator<Message>,
 {
-    let options = Options {
+    // Create a Sheath builder filter
+    let options = Filter {
         lines,
         characters,
         words,
@@ -102,7 +78,7 @@ where
                 let buffer = bump.alloc_slice_fill_default(bump.chunk_capacity());
 
                 (
-                    "".into(),
+                    "<STDIN>".into(),
                     process_reader(file, counter, buffer).map_err(|x| x.to_string()),
                 )
             })
