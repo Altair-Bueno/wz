@@ -10,47 +10,47 @@ pub struct Config {
     /// When this flag is enabled, wz will treat each line in stdin as a file path
     /// Example:
     ///     $ cat list_files.txt | wz --from-stdin
-    #[clap(long, verbatim_doc_comment)]
+    #[clap(long)]
     pub from_stdin: bool,
 
     /// Enables line count
-    #[clap(short, long, verbatim_doc_comment)]
+    #[clap(short, long)]
     pub lines: bool,
 
     /// Enables character count
-    #[clap(short, long = "chars", verbatim_doc_comment)]
+    #[clap(short, long = "chars")]
     pub characters: bool,
 
     /// Enables word count
     ///
     /// A word boundary is defined in isspace(3)
-    #[clap(short, long, verbatim_doc_comment)]
+    #[clap(short, long)]
     pub words: bool,
 
     /// Enables byte count
-    #[clap(short, long, verbatim_doc_comment)]
+    #[clap(short, long)]
     pub bytes: bool,
 
     /// Shows the longest line size
-    #[clap(short = 'L', long = "max-line-length", verbatim_doc_comment)]
+    #[clap(short = 'L', long = "max-line-length")]
     pub max_line_length: bool,
     /// Line break to use
     ///
     /// The kind of line break wz will search for. It can be LF ('\n') or CR
     /// ('\r'). For Windows' CRLF files, either should work fine
-    #[clap(short, long, default_value_t, value_enum, verbatim_doc_comment)]
+    #[clap(short, long, default_value_t, value_enum)]
     pub newline: LineBreak,
 
     /// File encoding
     ///
     /// The file encoding used on these files
-    #[clap(short, long, default_value_t, value_enum, verbatim_doc_comment)]
+    #[clap(short, long, default_value_t, value_enum)]
     pub encoding: Encoding,
 
     /// Output format
     ///
     /// Prints the result with the specified format
-    #[clap(long, default_value_t, value_enum, verbatim_doc_comment)]
+    #[clap(long, default_value_t, value_enum)]
     pub output: Format,
 
     /// List of input files to analyze
