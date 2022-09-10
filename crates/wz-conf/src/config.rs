@@ -31,7 +31,7 @@ pub struct Config {
     #[clap(short, long)]
     pub bytes: bool,
 
-    /// Shows the longest line size
+    /// Shows the longest line size, in characters
     #[clap(short = 'L', long = "max-line-length")]
     pub max_line_length: bool,
     /// Line break to use

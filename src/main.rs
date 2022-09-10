@@ -27,7 +27,7 @@
 //!
 //! Run `wz --help` to see the full list of options
 
-use std::io::stdout;
+use std::{io::stdout, error::Error};
 
 use wz_fmt::{
     json::Json,
@@ -38,7 +38,7 @@ mod builder;
 mod run;
 mod sheath;
 
-fn main() -> anyhow::Result<()> {
+fn main() -> Result<(), Box<dyn Error>> {
     let config = wz_conf::load();
     match config.output {
         wz_conf::Format::Json => {
