@@ -72,21 +72,3 @@ impl_collector_stats!(
     CharsCollector=>characters,
     BytesCollector=>bytes
 );
-
-#[cfg(all(test, feature = "serde"))]
-mod serde_test {
-    use rstest::*;
-    use speculoos::assert_that;
-
-    use crate::Stats;
-
-    #[rstest]
-    fn stats_generates_the_expected_json_output() {
-        let expected = r#"{"lines":0,"words":10}"#.to_owned();
-        let stats = Stats::new(Some(0), Some(10), None, None, None);
-
-        let obtained = serde_json::to_string(&stats).unwrap();
-
-        assert_that!(obtained).is_equal_to(expected)
-    }
-}
