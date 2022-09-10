@@ -4,6 +4,16 @@
 //! output, written in Rust
 //!
 //! ![wz](resources/wz.png)
+//! # Installation
+//!
+//! ## Cargo
+//!
+//! ```sh
+//! # Latest release
+//! cargo install wz
+//! # Latest commit
+//! cargo install --git https://github.com/Altair-Bueno/wz.git
+//! ```
 //!
 //! # Features
 //!
@@ -30,21 +40,10 @@
 //! ## Multiple line breaks support
 //!
 //! Got a file from an old Macintosh? Change the line break to carriage
-//! returns ('\r')
+//! returns (`'\r'`)
 //!
 //! ```sh
 //! wz macintosh.txt -n cr
-//! ```
-//!
-//! # Installation
-//!
-//! ## Cargo
-//!
-//! ```sh
-//! # Latest release
-//! cargo install wz
-//! # Latest commit
-//! cargo install --git https://github.com/Altair-Bueno/wz.git
 //! ```
 //!
 //! # Performance

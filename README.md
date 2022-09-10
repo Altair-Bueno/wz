@@ -6,6 +6,14 @@
 output, written in Rust
 
 ![wz](resources/wz.png)
+# Installation
+
+## Cargo
+
+```sh
+cargo install wz
+cargo install --git https://github.com/Altair-Bueno/wz.git
+```
 
 # Features
 
@@ -32,19 +40,10 @@ meaning that files with non ASCII characters are count correctly
 ## Multiple line breaks support
 
 Got a file from an old Macintosh? Change the line break to carriage
-returns ('\r')
+returns (`'\r'`)
 
 ```sh
 wz macintosh.txt -n cr
-```
-
-# Installation
-
-## Cargo
-
-```sh
-cargo install wz
-cargo install --git https://github.com/Altair-Bueno/wz.git
 ```
 
 # Performance
