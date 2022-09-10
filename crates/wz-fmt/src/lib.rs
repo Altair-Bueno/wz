@@ -3,7 +3,10 @@ pub mod table;
 
 pub type Message = (String, Result<Stats, String>);
 
-use std::ops::{Add, AddAssign};
+use std::{
+    fmt::Display,
+    ops::{Add, AddAssign},
+};
 
 use serde::Serialize;
 use tabled::Tabled;
@@ -11,16 +14,42 @@ use wz_core::*;
 
 #[derive(Debug, Eq, PartialEq, Clone, Copy, Serialize, Default, Tabled)]
 pub struct Stats {
-    lines: usize,
-    words: usize,
-    characters: usize,
-    bytes: usize,
+    #[tabled(display_with = "display_option")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    lines: Option<usize>,
+    #[tabled(display_with = "display_option")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    words: Option<usize>,
+    #[tabled(display_with = "display_option")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    characters: Option<usize>,
+    #[tabled(display_with = "display_option")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    bytes: Option<usize>,
     //length: usize,
+}
+
+impl Stats {
+    pub fn new() -> Self {
+        Self {
+            lines: Some(0),
+            words: Some(0),
+            characters: Some(0),
+            bytes: Some(0),
+        }
+    }
+}
+
+fn display_option<T: Display>(opt: &Option<T>) -> String {
+    match opt {
+        Some(x) => x.to_string(),
+        None => Default::default(),
+    }
 }
 
 macro_rules! add_name {
     ( $($x1:ident $x2:ident $name:tt ), * ) => {
-        $(let $name = $x1.$name + $x2.$name;)*
+        $(let $name = $x1.$name.zip($x2.$name).map(|(x,y)|x+y) ;)*
     };
 }
 
@@ -49,17 +78,12 @@ impl AddAssign for Stats {
     }
 }
 
-// impl LinesCollector for Stats {
-//     fn collect(&mut self, count: usize) {
-//         self.lines = count;
-//     }
-// }
 macro_rules! impl_collector_stats {
     ( $($name:ty=>$field:tt), *) => {
         $(
             impl $name for Stats {
                 fn collect(&mut self, count: usize) {
-                    self.$field = count;
+                    self.$field = Some(count);
                 }
             }
         )*

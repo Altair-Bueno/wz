@@ -1,6 +1,6 @@
 use std::{io::Write, iter::FromIterator};
 
-use rayon::prelude::{FromParallelIterator, ParallelIterator};
+use rayon::prelude::{FromParallelIterator, IntoParallelRefIterator, ParallelIterator};
 use tabled::{width::PriorityMax, Style, TableIteratorExt, Tabled, Width};
 
 use super::{Message, Stats};
@@ -77,14 +77,32 @@ impl Table {
 
 impl FromIterator<Message> for Table {
     fn from_iter<T: IntoIterator<Item = Message>>(iter: T) -> Self {
-        let table = iter
+        let mut rows: Vec<_> = iter
             .into_iter()
             .map(|(name, result)| Inner {
                 name,
                 result: result.into(),
             })
             .collect();
-        Table { table }
+
+        let total = rows
+            .iter()
+            .flat_map(|x| {
+                if let Either::Stats { stats } = x.result {
+                    Some(stats)
+                } else {
+                    None
+                }
+            })
+            .fold(Stats::new(), |x, y| x + y);
+        rows.push(Inner {
+            name: "Total".to_owned(),
+            result: Either::Stats { stats: total },
+        });
+
+        Table {
+            table: rows.table(),
+        }
     }
 }
 
@@ -93,14 +111,31 @@ impl FromParallelIterator<Message> for Table {
     where
         I: rayon::prelude::IntoParallelIterator<Item = Message>,
     {
-        let table = par_iter
+        let mut rows: Vec<_> = par_iter
             .into_par_iter()
             .map(|(name, result)| Inner {
                 name,
                 result: result.into(),
             })
-            .collect::<Vec<_>>()
-            .table();
-        Table { table }
+            .collect();
+
+        let total = rows
+            .par_iter()
+            .flat_map(|x| {
+                if let Either::Stats { stats } = x.result {
+                    Some(stats)
+                } else {
+                    None
+                }
+            })
+            .reduce(Stats::new, |x, y| x + y);
+        rows.push(Inner {
+            name: "Total".to_owned(),
+            result: Either::Stats { stats: total },
+        });
+
+        Table {
+            table: rows.table(),
+        }
     }
 }

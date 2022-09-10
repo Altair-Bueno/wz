@@ -26,7 +26,7 @@ impl FromIterator<Message> for Json {
             .iter()
             .flat_map(|(_, y)| y)
             .cloned()
-            .fold(Stats::default(), |x, y| x + y);
+            .fold(Stats::new(), |x, y| x + y);
         Json { total, summary }
     }
 }
@@ -41,7 +41,7 @@ impl FromParallelIterator<Message> for Json {
             .par_iter()
             .flat_map(|(_, y)| y)
             .copied()
-            .reduce(Stats::default, |x, y| x + y);
+            .reduce(Stats::new, |x, y| x + y);
         Json { total, summary }
     }
 }
