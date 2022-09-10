@@ -1,6 +1,6 @@
 [package]
 name = "wz-utf8"
-version = "0.1.1"
+version = "1.0.0"
 edition = "2021"
 license = "MIT"
 description = "UTF-8 counters for wz"
@@ -12,7 +12,7 @@ runtime-dispatch-simd = ["bytecount/runtime-dispatch-simd"]
 # generic-simd = ["bytecount/generic-simd"]
 
 [dependencies]
-wz-core = { path = "../wz-core", version = "0.1.0" }
+wz-core = { path = "../wz-core", version = "1.0.0" }
 bytecount = "0.6.3"
 memchr = "2"
 
