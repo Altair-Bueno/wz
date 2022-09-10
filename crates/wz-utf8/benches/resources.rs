@@ -31,6 +31,11 @@ fn criterion_benchmark(c: &mut Criterion) {
         &wz_utf8::Words::default(),
         |b, i| counter_benchmark(b, i.clone()),
     );
+    c.bench_with_input(
+        BenchmarkId::new(std::any::type_name::<wz_utf8::MaxLineLength>(), "Default"),
+        &wz_utf8::MaxLineLength::line_feed(),
+        |b, i| counter_benchmark(b, i.clone()),
+    );
 }
 
 criterion_group!(benches, criterion_benchmark);
