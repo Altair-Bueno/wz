@@ -15,11 +15,3 @@ features = [
   "derive",
   "wrap_help"
 ]
-
-[build-dependencies]
-clap_mangen = "0.1"
-clap_complete = "3.2.4"
-
-[build-dependencies.clap]
-version = "3.2.20"
-features = [ "derive" ]

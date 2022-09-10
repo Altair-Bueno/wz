@@ -21,7 +21,6 @@ wz-fmt = { path = "crates/wz-fmt", version = "0.1.0" }
 
 bumpalo = { version = "3.11.0" }
 rayon = "1.5.3"
-anyhow = "1.0.64"
 
 [workspace]
 members = ["crates/*"]
