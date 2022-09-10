@@ -11,9 +11,15 @@ pub use config::*;
 /// [wz]: https://crates.io/crates/wz
 pub fn load() -> Config {
     let mut config = Config::parse();
-    if ![config.bytes, config.characters, config.words, config.lines]
-        .into_iter()
-        .any(|x| x)
+    if ![
+        config.bytes,
+        config.characters,
+        config.words,
+        config.lines,
+        config.max_line_length,
+    ]
+    .into_iter()
+    .any(|x| x)
     {
         config.lines = true;
         config.words = true;

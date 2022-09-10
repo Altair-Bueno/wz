@@ -30,6 +30,7 @@ pub fn run<T>(
         newline,
         files,
         encoding,
+        max_line_length,
         ..
     }: Config,
 ) -> T
@@ -43,6 +44,7 @@ where
         words,
         bytes,
         newline: newline.into(),
+        max_line_length,
     };
     // Sheath builder
     let builder: Arc<dyn Builder + Send + Sync> = match encoding {

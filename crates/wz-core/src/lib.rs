@@ -71,12 +71,14 @@ gen_collector_trait!(
     BytesCollector,
     CharsCollector,
     LinesCollector,
-    WordsCollector
+    WordsCollector,
+    MaxLineLengthCollector
 );
 
 impl_collector_usize!(
     BytesCollector,
     CharsCollector,
     LinesCollector,
-    WordsCollector
+    WordsCollector,
+    MaxLineLengthCollector
 );

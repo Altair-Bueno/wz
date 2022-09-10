@@ -14,6 +14,7 @@ runtime-dispatch-simd = ["bytecount/runtime-dispatch-simd"]
 [dependencies]
 wz-core = { path = "../wz-core", version = "0.1.0" }
 bytecount = "0.6.3"
+memchr = "2"
 
 [dev-dependencies]
 criterion = { version = "0.3.6", features = ["html_reports"] }

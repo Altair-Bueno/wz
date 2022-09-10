@@ -40,7 +40,9 @@ pub struct Stats {
     #[tabled(display_with = "display_option")]
     #[serde(skip_serializing_if = "Option::is_none")]
     bytes: Option<usize>,
-    //length: usize,
+    #[tabled(display_with = "display_option")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    max_line_length: Option<usize>,
 }
 
 impl Stats {
@@ -51,6 +53,7 @@ impl Stats {
             words: Some(0),
             characters: Some(0),
             bytes: Some(0),
+            max_line_length: Some(0),
         }
     }
 }
@@ -82,11 +85,16 @@ impl Add for Stats {
             self rhs characters,
             self rhs bytes
         );
+        let max_line_length = self
+            .max_line_length
+            .zip(rhs.max_line_length)
+            .map(|(x, y)| std::cmp::max(x, y));
         Self {
             lines,
             words,
             characters,
             bytes,
+            max_line_length,
         }
     }
 }
@@ -114,5 +122,6 @@ impl_collector_stats!(
     LinesCollector=>lines,
     WordsCollector=>words,
     CharsCollector=>characters,
-    BytesCollector=>bytes
+    BytesCollector=>bytes,
+    MaxLineLengthCollector=>max_line_length
 );

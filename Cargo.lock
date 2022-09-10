@@ -1231,6 +1231,7 @@ version = "0.1.1"
 dependencies = [
  "bytecount",
  "criterion",
+ "memchr",
  "rstest",
  "speculoos",
  "wz-core",

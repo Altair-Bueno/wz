@@ -31,9 +31,9 @@ pub struct Config {
     #[clap(short, long, verbatim_doc_comment)]
     pub bytes: bool,
 
-    //     /// Shows the longest line size
-    //     #[clap(short = 'L', long, verbatim_doc_comment)]
-    //     pub line_length: bool,
+    /// Shows the longest line size
+    #[clap(short = 'L', long = "max-line-length", verbatim_doc_comment)]
+    pub max_line_length: bool,
     /// Line break to use
     ///
     /// The kind of line break wz will search for. It can be LF ('\n') or CR

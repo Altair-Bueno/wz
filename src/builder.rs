@@ -13,6 +13,7 @@ pub struct Filter {
     pub words: bool,
     pub bytes: bool,
     pub newline: u8,
+    pub max_line_length: bool,
 }
 
 impl Default for Filter {
@@ -23,6 +24,7 @@ impl Default for Filter {
             words: Default::default(),
             bytes: Default::default(),
             newline: b'\n',
+            max_line_length: Default::default(),
         }
     }
 }
@@ -68,6 +70,13 @@ impl Builder for BuilderUtf8 {
             counter = bump.alloc(sheath) as _;
         }
 
+        if options.max_line_length {
+            let sheath = Sheath::new(
+                wz_utf8::MaxLineLength::with_linebreak(options.newline),
+                counter,
+            );
+            counter = bump.alloc(sheath) as _;
+        }
         counter
     }
 }

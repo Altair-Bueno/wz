@@ -130,3 +130,66 @@ where
         counter.collect(self.n + usize::from(self.on_word));
     }
 }
+
+/// Max line length counter for UTF-8 encoded byte slices
+///
+/// ```
+/// use wz_core::Counter;
+/// use wz_utf8::MaxLineLength;
+///
+/// let counter = MaxLineLength::with_linebreak(b'\n');
+/// ```
+#[derive(Clone, Debug)]
+pub struct MaxLineLength {
+    max: usize,
+    character_counter: Chars,
+    line_break: u8,
+}
+
+impl MaxLineLength {
+    /// Creates a new MaxLineLength counter that looks for line_break bytes
+    pub fn with_linebreak(line_break: u8) -> Self {
+        Self {
+            max: 0,
+            line_break,
+            character_counter: Default::default(),
+        }
+    }
+    /// Creates a new MaxLineLength counter that looks  for '\n'
+    pub fn line_feed() -> Self {
+        Self::with_linebreak(b'\n')
+    }
+    /// Creates a new MaxLineLength counter that looks for '\r'
+    pub fn carriage_return() -> Self {
+        Self::with_linebreak(b'\r')
+    }
+}
+
+impl<T> Counter<T> for MaxLineLength
+where
+    T: MaxLineLengthCollector,
+{
+    fn count(&mut self, input: &[u8]) {
+        let mut index = 0;
+
+        while let Some(offset_index) = memchr::memchr(self.line_break, &input[index..]) {
+            Counter::<usize>::count(
+                &mut self.character_counter,
+                &input[index..offset_index + index],
+            );
+            let mut chars = 0;
+            self.character_counter.output(&mut chars);
+            index += offset_index + 1;
+            self.max = core::cmp::max(self.max, chars);
+            self.character_counter = Default::default();
+        }
+        Counter::<usize>::count(&mut self.character_counter, &input[index..]);
+    }
+
+    fn output(&self, collector: &mut T) {
+        let mut chars = 0;
+        self.character_counter.output(&mut chars);
+        let count = core::cmp::max(self.max, chars);
+        collector.collect(count)
+    }
+}
