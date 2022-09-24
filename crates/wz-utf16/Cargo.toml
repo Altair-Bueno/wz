@@ -1,0 +1,19 @@
+[package]
+name = "wz-utf16"
+version = "0.1.0"
+edition = "2021"
+
+[features]
+runtime-dispatch-simd = ["bytecount/runtime-dispatch-simd"]
+# Nightly only
+# generic-simd = ["bytecount/generic-simd"]
+
+[dependencies]
+wz-core   = { workspace = true }
+bytecount = { workspace = true }
+memchr    = { workspace = true }
+
+[dev-dependencies]
+criterion = { version = "0.3.6", features = ["html_reports"] }
+rstest = "0.15.0"
+speculoos = "0.9.0"

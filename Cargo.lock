@@ -1192,6 +1192,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "wz-utf16"
+version = "0.1.0"
+dependencies = [
+ "bytecount",
+ "criterion",
+ "memchr",
+ "rstest",
+ "speculoos",
+ "wz-core",
+]
+
+[[package]]
 name = "wz-utf8"
 version = "1.0.0"
 dependencies = [
