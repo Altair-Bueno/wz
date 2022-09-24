@@ -6,12 +6,4 @@ license = "MIT"
 description = "Configuration options for wz"
 
 [dependencies.clap]
-version = "3.2.20"
-default-features = false
-features = [
-  "std",
-  "color",
-  "suggestions",
-  "derive",
-  "wrap_help"
-]
+workspace = true

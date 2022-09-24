@@ -12,9 +12,9 @@ runtime-dispatch-simd = ["bytecount/runtime-dispatch-simd"]
 # generic-simd = ["bytecount/generic-simd"]
 
 [dependencies]
-wz-core = { path = "../wz-core", version = "1.0.0" }
-bytecount = "0.6.3"
-memchr = "2"
+wz-core   = { workspace = true }
+bytecount = { workspace = true }
+memchr    = { workspace = true }
 
 [dev-dependencies]
 criterion = { version = "0.3.6", features = ["html_reports"] }
