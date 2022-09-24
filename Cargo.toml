@@ -48,6 +48,11 @@ wz-core = { path = "crates/wz-core", version = "1.0.0" }
 wz-conf = { path = "crates/wz-conf", version = "1.0.0" }
 wz-fmt = { path = "crates/wz-fmt", version = "1.0.0" }
 
+# Dev dependencies
+criterion = { version = "0.3.6", features = ["html_reports"] }
+rstest = "0.15.0"
+speculoos = "0.9.0"
+
 [workspace.dependencies.serde]
 version = "1.0.144"
 features = ["derive"]

@@ -14,6 +14,6 @@ bytecount = { workspace = true }
 memchr    = { workspace = true }
 
 [dev-dependencies]
-criterion = { version = "0.3.6", features = ["html_reports"] }
-rstest = "0.15.0"
-speculoos = "0.9.0"
+criterion = { workspace = true }
+speculoos = { workspace = true }
+rstest    = { workspace = true }
