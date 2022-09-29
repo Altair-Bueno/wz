@@ -2,6 +2,9 @@
 name = "wz-utf16"
 version = "1.0.1"
 edition = "2021"
+license = "MIT"
+description = "UTF-16 counters for wz"
+categories = ["no-std"]
 
 [features]
 runtime-dispatch-simd = ["bytecount/runtime-dispatch-simd"]
