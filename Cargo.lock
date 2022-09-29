@@ -1119,7 +1119,7 @@ checksum = "c811ca4a8c853ef420abd8592ba53ddbbac90410fab6903b3e79972a631f7680"
 
 [[package]]
 name = "wz"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "bumpalo",
  "rayon",
@@ -1131,7 +1131,7 @@ dependencies = [
 
 [[package]]
 name = "wz-conf"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "clap 4.0.2",
 ]
@@ -1142,7 +1142,7 @@ version = "1.0.0"
 
 [[package]]
 name = "wz-fmt"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "rayon",
  "serde",
@@ -1154,7 +1154,7 @@ dependencies = [
 
 [[package]]
 name = "wz-utf16"
-version = "0.1.0"
+version = "1.0.1"
 dependencies = [
  "bytecount",
  "criterion",
@@ -1166,7 +1166,7 @@ dependencies = [
 
 [[package]]
 name = "wz-utf8"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "bytecount",
  "criterion",
