@@ -2,62 +2,62 @@ use clap::{ArgGroup, Parser, ValueEnum};
 
 /// Command line arguments
 #[derive(Parser, Debug, Clone)]
-#[clap(name = "wz",author, version, about = "Wortzahl! Count words, fast", long_about = None)]
-#[clap(group(ArgGroup::new("input").required(false).args(& ["from-stdin", "files"])))]
+#[command(name = "wz",author, version, about = "Wortzahl! Count words, fast", long_about = None)]
+#[command(group(ArgGroup::new("input").required(false).args(& ["from_stdin", "files"])))]
 pub struct Config {
     /// Read file paths from stdin
     ///
     /// When this flag is enabled, wz will treat each line in stdin as a file path
     /// Example:
     ///     $ cat list_files.txt | wz --from-stdin
-    #[clap(long)]
+    #[arg(long)]
     pub from_stdin: bool,
 
     /// Enables line count
-    #[clap(short, long)]
+    #[arg(short, long)]
     pub lines: bool,
 
     /// Enables character count
-    #[clap(short, long = "chars")]
+    #[arg(short, long = "chars")]
     pub characters: bool,
 
     /// Enables word count
     ///
     /// A word boundary is defined in isspace(3)
-    #[clap(short, long)]
+    #[arg(short, long)]
     pub words: bool,
 
     /// Enables byte count
-    #[clap(short, long)]
+    #[arg(short, long)]
     pub bytes: bool,
 
     /// Shows the longest line size, in characters
-    #[clap(short = 'L', long = "max-line-length")]
+    #[arg(short = 'L', long = "max-line-length")]
     pub max_line_length: bool,
     /// Line break to use
     ///
     /// The kind of line break wz will search for. It can be LF ('\n') or CR
     /// ('\r'). For Windows' CRLF files, either should work fine
-    #[clap(short, long, default_value_t, value_enum)]
+    #[arg(short, long, default_value_t, value_enum)]
     pub newline: LineBreak,
 
     /// File encoding
     ///
     /// The file encoding used on these files
-    #[clap(short, long, default_value_t, value_enum)]
+    #[arg(short, long, default_value_t, value_enum)]
     pub encoding: Encoding,
 
     /// Output format
     ///
     /// Prints the result with the specified format
-    #[clap(long, default_value_t, value_enum)]
+    #[arg(long, default_value_t, value_enum)]
     pub output: Format,
 
     /// List of input files to analyze
     ///
     /// If no file is provided, wz will default to stdin input. Conflicts with
     /// `from-stdin`
-    #[clap(verbatim_doc_comment)]
+    #[arg(verbatim_doc_comment)]
     pub files: Vec<String>,
 }
 

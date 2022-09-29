@@ -58,7 +58,7 @@ version = "1.0.144"
 features = ["derive"]
 
 [workspace.dependencies.clap]
-version = "3.2.20"
+version = "4.0"
 default-features = false
 features = [
   "std",
