@@ -38,7 +38,7 @@ resolver = "2"
 rayon = "1.5.3"
 bumpalo = "3.11.0"
 terminal_size = "0.2.1"
-tabled = "0.8.0"
+tabled = "0.10.0"
 serde_json = "1.0.85"
 bytecount = "0.6.3"
 memchr = "2"
@@ -49,9 +49,9 @@ wz-conf = { path = "crates/wz-conf", version = "1.0.0" }
 wz-fmt = { path = "crates/wz-fmt", version = "1.0.0" }
 
 # Dev dependencies
-criterion = { version = "0.3.6", features = ["html_reports"] }
+criterion = { version = "0.4.0", features = ["html_reports"] }
 rstest = "0.15.0"
-speculoos = "0.9.0"
+speculoos = "0.10.0"
 
 [workspace.dependencies.serde]
 version = "1.0.144"

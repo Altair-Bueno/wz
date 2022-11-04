@@ -1,7 +1,7 @@
 use std::{io::Write, iter::FromIterator};
 
 use rayon::prelude::{FromParallelIterator, IntoParallelRefIterator, ParallelIterator};
-use tabled::{width::PriorityMax, Style, TableIteratorExt, Tabled, Width};
+use tabled::{peaker::PriorityMax, Style, TableIteratorExt, Tabled, Width};
 
 use crate::Output;
 
@@ -58,7 +58,11 @@ impl From<Result<Stats, String>> for Either {
 impl Output for Table {
     type Options = TableOptions;
     type Error = std::io::Error;
-    fn to_writer<W: Write>(self, options: Self::Options, mut writter: W) -> std::io::Result<()> {
+    fn to_writer<W: Write>(
+        mut self,
+        options: Self::Options,
+        mut writter: W,
+    ) -> std::io::Result<()> {
         let width = None
             .or_else(|| Some(terminal_size::terminal_size()?.0 .0 as _))
             .unwrap_or(80);
