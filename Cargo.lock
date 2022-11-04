@@ -1125,7 +1125,7 @@ checksum = "f40009d85759725a34da6d89a94e63d7bdc50a862acf0dbc7c8e488f1edcb6f5"
 
 [[package]]
 name = "wz"
-version = "1.0.2"
+version = "1.0.3"
 dependencies = [
  "bumpalo",
  "rayon",
@@ -1148,7 +1148,7 @@ version = "1.0.0"
 
 [[package]]
 name = "wz-fmt"
-version = "1.0.1"
+version = "1.0.3"
 dependencies = [
  "rayon",
  "serde",
