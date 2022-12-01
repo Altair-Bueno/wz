@@ -37,7 +37,7 @@ resolver = "2"
 [workspace.dependencies]
 rayon = "1.6.0"
 bumpalo = "3.11.0"
-terminal_size = "0.2.1"
+terminal_size = "0.2.3"
 tabled = "0.10.0"
 serde_json = "1.0.85"
 bytecount = "0.6.3"
