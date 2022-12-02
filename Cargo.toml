@@ -54,7 +54,7 @@ rstest = "0.15.0"
 speculoos = "0.10.0"
 
 [workspace.dependencies.serde]
-version = "1.0.144"
+version = "1.0.148"
 features = ["derive"]
 
 [workspace.dependencies.clap]
