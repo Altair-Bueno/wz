@@ -35,7 +35,7 @@ members = ["crates/*"]
 resolver = "2"
 
 [workspace.dependencies]
-rayon = "1.6.0"
+rayon = "1.6.1"
 bumpalo = "3.11.0"
 terminal_size = "0.2.3"
 tabled = "0.10.0"
