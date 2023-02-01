@@ -51,7 +51,7 @@ wz-fmt = { path = "crates/wz-fmt", version = "1.0.0" }
 # Dev dependencies
 criterion = { version = "0.4.0", features = ["html_reports"] }
 rstest = "0.15.0"
-speculoos = "0.10.0"
+speculoos = "0.11.0"
 
 [workspace.dependencies.serde]
 version = "1.0.148"
