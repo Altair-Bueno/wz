@@ -49,7 +49,7 @@ wz-conf = { path = "crates/wz-conf", version = "1.0.0" }
 wz-fmt = { path = "crates/wz-fmt", version = "1.0.0" }
 
 # Dev dependencies
-criterion = { version = "0.4.0", features = ["html_reports"] }
+criterion = { version = "0.5.1", features = ["html_reports"] }
 rstest = "0.17.0"
 speculoos = "0.11.0"
 
